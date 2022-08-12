@@ -7,7 +7,7 @@ const inquirer = require("inquirer");
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "root",
+    password: "password",
     database: "employee_db",
 });
 
@@ -86,6 +86,30 @@ function addEmployee() {
         })
 };
 
+function updateEmployeeRole() {
+    db.query('SELECT * FROM roles', function (err, results) {
+      err ? console.error(err) : console.log("Employee role has been updated.")
+      inquirer
+        .prompt([
+          {
+            type: "input",
+            message: "Enter the id of the employee that you would like to updated!",
+            name: "employee_id"
+          },
+          {
+            type: "input",
+            message: "Enter their new role id.",
+            name: "employee_role"
+          }
+        ])
+        .then((data) => {
+          db.query('UPDATE employee SET role_id = ? WHERE id = ?', [data.employee_role, data.employee_id], function (err, results) {
+            err ? console.error(err) : console.log("Employee role has been udpated!");
+          });
+          init();
+        })
+    })
+};
 
 // Roles 
 const getRoles = async () => {
@@ -116,8 +140,8 @@ function addRole() {
         .then((newRole) => {
             db.query('INSERT INTO roles SET ?', newRole, function (err, results) {
                 err ? console.error(err) : console.log("Your new role has been created!");
-                initialQuestion()
             });
+            init();
         })
 };
 
@@ -139,8 +163,8 @@ const getDepartments = async () => {
       .then((newDepartment) => {
         db.query('INSERT INTO department SET ?', newDepartment, function (err, results) {
           err ? console.error(err) : console.log("Your new department has been created!");
-          initialQuestion()
         });
+        init();
       })
   }
 
