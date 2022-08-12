@@ -47,6 +47,7 @@ const init = () => {
     })
 };
 
+// Employees 
 const getEmployees = async () => {
     let data = await db.promise().query('SELECT * from employees');
     console.table(data[0]);
@@ -58,33 +59,35 @@ function addEmployee() {
         .prompt([
             {
                 type: "input",
-                message: "What is the employee's first name?",
+                message: "Enter your new employee's first name.",
                 name: "first_name"
             },
             {
                 type: "input",
-                message: "What is the employee's last name?",
+                message: "Enter your new employee's last name.",
                 name: "last_name"
             },
             {
                 type: "input",
-                message: "What is the employee's role id?",
+                message: "Enter the employee's role id.",
                 name: "role_id"
             },
             {
                 type: "input",
-                message: "What is the employee's manager id?",
+                message: "Enter the employee's manager id.",
                 name: "manager_id"
             },
         ])
         .then((newEmployee) => {
             db.query('INSERT INTO employees SET ?', newEmployee, function (err, results) {
-                err ? console.error(err) : console.log("Your new employee has been added!");
+                err ? console.error(err) : console.log("Your new employee has been created!");
             });
             init();
         })
 };
 
+
+// Roles 
 const getRoles = async () => {
     let data = await db.promise().query("SELECT * from roles");
     console.table(data[0]);
@@ -96,28 +99,50 @@ function addRole() {
         .prompt([
             {
                 type: "input",
-                message: "What is the title of the role?",
+                message: "Enter the title for your new role.",
                 name: "title"
             },
             {
                 type: "input",
-                message: "What is the role's salary?",
+                message: "Enter this role's salary.",
                 name: "salary"
             },
             {
                 type: "input",
-                message: "What is the deparment id?",
+                message: "Enter the roles's associateed department id.",
                 name: "department_id"
             }
         ])
         .then((newRole) => {
             db.query('INSERT INTO roles SET ?', newRole, function (err, results) {
-                err ? console.error(err) : console.log("Your new role has been added!");
+                err ? console.error(err) : console.log("Your new role has been created!");
                 initialQuestion()
             });
         })
 };
 
+// Department 
+const getDepartments = async () => {
+    let data = await db.promise().query("SELECT * from departments");
+    console.table(data[0]);
+  };
+
+  function addDepartment() {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          message: "Enter the name of the new department.",
+          name: "name"
+        }
+      ])
+      .then((newDepartment) => {
+        db.query('INSERT INTO department SET ?', newDepartment, function (err, results) {
+          err ? console.error(err) : console.log("Your new department has been created!");
+          initialQuestion()
+        });
+      })
+  }
 
 init();
 
