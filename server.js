@@ -29,22 +29,15 @@ const questions = {
 
 const init = () => {
     inquirer.prompt(questions).then((answers) => {
-        if (answers.questions === "View all Employees") {
-            getEmployees()
-        } else if (answer.questions === "Add Employee") {
-            addEmployee()
-        } else if (answer.questions === "View all Roles") {
-            getRoles()
-        } else if (answer.questions === "Add Role") {
-            addRole()
-        } else if (answer.questions === "View all Departments") {
-            getDepartments()
-        } else if (answer.questions === "Add Department") {
-            addDepartment()
-        } else if (answer.questions === "Update Employee Role") {
-            updateEmployeeRole()
-        } else { console.log("Goodbye!") };
-    })
+        if (answers.questions === "View all Employees") { getEmployees()};
+        if (answers.questions === "Add Employee") { addEmployee()};
+        if (answers.questions === "View all Roles") { getRoles()};
+        if (answers.questions === "Add Role") { addRole()} ;
+        if (answers.questions === "View all Departments") { getDepartments()};
+        if (answers.questions === "Add Department") { addDepartment() } ;
+        if (answers.questions === "Update Employee Role") { updateEmployeeRole()};
+        if (answers.questions === "Quit") { console.log("Goodbye!") };
+    });
 };
 
 // Employees 
@@ -166,7 +159,7 @@ const getDepartments = async () => {
         });
         init();
       })
-  }
+  };
 
 init();
 
